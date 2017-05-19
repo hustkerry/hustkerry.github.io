@@ -92,13 +92,12 @@
 
 <meta name="description" content="认真你就输了一直认真你就赢了">
 <meta property="og:type" content="website">
-<meta property="og:title" content="标签云">
-<meta property="og:url" content="http://note.hustkerry.me/tags/index.html">
+<meta property="og:title" content="Kerry">
+<meta property="og:url" content="http://note.hustkerry.me/index.html">
 <meta property="og:site_name" content="Kerry">
 <meta property="og:description" content="认真你就输了一直认真你就赢了">
-<meta property="og:updated_time" content="2017-05-05T08:17:48.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="标签云">
+<meta name="twitter:title" content="Kerry">
 <meta name="twitter:description" content="认真你就输了一直认真你就赢了">
 
 
@@ -127,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="http://note.hustkerry.me/tags/"/>
+  <link rel="canonical" href="http://note.hustkerry.me/"/>
 
 
 
 
 
-  <title>标签云 | Kerry</title>
+  <title>Kerry</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -158,7 +157,9 @@
     
   
 
-  <div class="container sidebar-position-left  ">
+  <div class="container sidebar-position-left 
+   page-home 
+ ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -251,28 +252,148 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
+  <section id="posts" class="posts-expand">
+    
+      
 
-  <div id="posts" class="posts-expand">
-  <header class="post-header">
+  
 
-	<h1 class="post-title" itemprop="name headline">标签云</h1>
+  
+  
+  
 
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://note.hustkerry.me/2016/05/19/optimization-method/">
 
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kerry">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/python.png">
+    </span>
 
-</header>
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kerry">
+    </span>
 
     
-    
-      <div class="tag-cloud">
-        <div class="tag-cloud-title">
-            目前共计 3 个标签
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/05/19/optimization-method/" itemprop="url">常用最优化方法总结</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-05-19T10:38:08+08:00">
+                2016-05-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Machine-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Machine Learning</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
         </div>
-        <div class="tag-cloud-tags">
-          <a href="/tags/最优化/" style="font-size: 12px; color: #ccc">最优化</a> <a href="/tags/梯度下降/" style="font-size: 12px; color: #ccc">梯度下降</a> <a href="/tags/牛顿法/" style="font-size: 12px; color: #ccc">牛顿法</a>
-        </div>
-      </div>
+      </header>
     
-  </div>
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>如果从事过机器学习相关工作都应该对梯度下降不陌生。统计学习的角度来说(其实是李航老师说的)，大部分机器学习主要分为三个块：模型，策略和算法。其中算法的目标就是求解最优参数的过程，包含了各种最优化方法。而梯度下降就是其中最普遍的一个，例如：线性回归，神经网络、逻辑回归等算法都经常用梯度下降法完成最优化过程。说到梯度下降，我和很多人一样，曾经的第一反应就是：“它是一个不断迭代的算法，每一次在点下降最快的方向(就是梯度反方向)往前走一个步长(这个步长可以定长，也可以动态调整，步长偏大容易震荡，偏小又导致训练速度下降)，如此不停迭代，直到损失函数不再有明显变化。当然，为了缩短训练时间或者防止过拟合也可以early stop，例如：如果validation data的准确率不再发生明显变化了，就停止训练”。了解这些也许对于工程实现来说够了，但是仔细一想，什么是梯度，为什么沿着梯度反方向下降是最快的，它的原理是什么？所以，我觉得需要总结一下最优化方法。</p>
+<p>一般优化方法分为：梯度下降（批量、随机、mini-batch）；牛顿法（包含为了不计算hesse矩阵而提出的拟牛顿法）；共轭梯度法；启发式方法（模拟退火、遗传算法、蚁群算法等）。这里对梯度下降和牛顿法做一个总结，至于其他优化算法，日后若有契机，必当相见。</p>
+<p>##梯度下降<br>首先回答什么是梯度。梯度是一个方向，对于某个优化函数，只要点确定了，这个方向就是定的，沿着这个方向优化函数上升最快，逆这个方向优化函数下降最快。梯度下降法是求解无约束最优化问题的常用方法。来个正规一点的定义：</p>
+<p><strong>多变量函数的一个</strong></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+  </section>
+
+  
 
 
           </div>
