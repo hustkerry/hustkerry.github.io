@@ -1,0 +1,752 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="REST,django,web开发," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="在我们工程实践中，经常会被要求提供各种各样的http接口。那么接口应该怎么设计，遵循什么风格？加上微服务的概念也越来越流行，我就对REST产生了兴趣。 什么是REST(Representational State Transfer，表述性状态转移)首先，必须明确一点：REST不是一种标准，不是一种规范，不是一种技术，也不是一种协议，而是一种web应用的架构风格，也是目前最优秀的一种分布式应用架构风">
+<meta name="keywords" content="REST,django,web开发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="REST理论与实战">
+<meta property="og:url" content="http://note.hustkerry.me/2016/08/01/rest/index.html">
+<meta property="og:site_name" content="Kerry">
+<meta property="og:description" content="在我们工程实践中，经常会被要求提供各种各样的http接口。那么接口应该怎么设计，遵循什么风格？加上微服务的概念也越来越流行，我就对REST产生了兴趣。 什么是REST(Representational State Transfer，表述性状态转移)首先，必须明确一点：REST不是一种标准，不是一种规范，不是一种技术，也不是一种协议，而是一种web应用的架构风格，也是目前最优秀的一种分布式应用架构风">
+<meta property="og:updated_time" content="2017-05-19T10:22:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="REST理论与实战">
+<meta name="twitter:description" content="在我们工程实践中，经常会被要求提供各种各样的http接口。那么接口应该怎么设计，遵循什么风格？加上微服务的概念也越来越流行，我就对REST产生了兴趣。 什么是REST(Representational State Transfer，表述性状态转移)首先，必须明确一点：REST不是一种标准，不是一种规范，不是一种技术，也不是一种协议，而是一种web应用的架构风格，也是目前最优秀的一种分布式应用架构风">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://note.hustkerry.me/2016/08/01/rest/"/>
+
+
+
+
+
+  <title>REST理论与实战 | Kerry</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Kerry</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Kerry的个人笔记</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://note.hustkerry.me/2016/08/01/rest/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kerry">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/python.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kerry">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">REST理论与实战</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-01T17:22:09+08:00">
+                2016-08-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/REST/" itemprop="url" rel="index">
+                    <span itemprop="name">REST</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在我们工程实践中，经常会被要求提供各种各样的http接口。那么接口应该怎么设计，遵循什么风格？加上微服务的概念也越来越流行，我就对REST产生了兴趣。</p>
+<h2 id="什么是REST-Representational-State-Transfer，表述性状态转移"><a href="#什么是REST-Representational-State-Transfer，表述性状态转移" class="headerlink" title="什么是REST(Representational State Transfer，表述性状态转移)"></a>什么是REST(Representational State Transfer，表述性状态转移)</h2><p>首先，必须明确一点：<strong>REST不是一种标准，不是一种规范，不是一种技术，也不是一种协议，而是一种web应用的架构风格，也是目前最优秀的一种分布式应用架构风格。它是一种web设计的架构指导原则，当然，你不遵循它你同样可以实现相同的功能。</strong>例如，HTTP1.1就是一个很好的REST实现。下面，从我认为的REST中三个比较重要的方面去解释什么是REST。<a id="more"></a></p>
+<p><strong><em>REST中核心的概念是资源</em></strong>，它没有服务的概念，举个栗子，对于相亲网站中提供两个人配对系数计算服务，SOA中采用类似<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">***REST中服务器应该被设计成无状态的***，具体来说，服务器端不应该记录会话session，所有的状态应该通过URI记录在客户端，因为资源就是天然的状态。这种讲法可能比较抽象，我们来举个栗子，网上有很多做测试的应用(测试你前世是谁，测试你是什么性格，测试你今天运气等等)，简单点假设我们要做2个选择题(A,B,C,D)，然后根据答案就可以得到测试结果。如果使用SOA或者ORB很容易想到先后访问```http://xxxx/questions/1、http://xxxx/questions/2```，服务端保存session，然后根据两次答案返回测试结果。在REST中，我们可以这样设计，一开始访问```http://xxxx/testing```，返回第一个问题，用户选择后自动跳到下一题 (或者有按钮之类)，自动跳转或者按钮的URI(这涉及到REST中一个关键的概念：将超媒体作为应用状态的引擎)可能为```http://xxxx/testing/A、http://xxxx/testing/B、http://xxxx/testing/C、http://xxxx/testing/D```，如此继续下一页，URI可能为```http://xxxx/testing/A／A```，其他情况省略。我们计算一下，这个过程一共有几个状态（资源），1+4+16=21种状态，但是这并不意味着在服务器端要保存21个静态网页，这些网页都是可以动态产生的。从上面我们可以明显的感觉到，通过这种REST方式的设计，服务器端不用存储状态，状态通过URI这种表现形式存在在了客户端。说了这么多，**无状态的服务器有啥好处，答案是系统良好的伸缩性，如果服务端是有状态的，那么session的存储和共享很容易成为系统伸缩的瓶颈，不容易通过增加硬件来提高性能。同时，服务端不保存状态可以是服务端的改变对客户端透明(例如，做选择题的过程中一台服务器宕机了，换了另一台，客户端是没感知的，并且不会影响服务)，不过另一方面，给客户端的安全性带来了挑战。**</div><div class="line"></div><div class="line">***REST中使用统一接口对资源进行各种操作***，以HTTP1.1为例，HTTP/1.1协议定义了一个操作资源的统一接口，主要包括以下内容：  </div><div class="line"></div><div class="line">* 7个HTTP方法：GET/POST/PUT/DELETE/PATCH/HEAD/OPTIONS</div><div class="line">* HTTP头信息（可自定义）</div><div class="line">* HTTP响应状态代码（可自定义）</div><div class="line">* 一套标准的内容协商机制</div><div class="line">* 一套标准的缓存机制</div><div class="line">* 一套标准的客户端身份认证机制</div><div class="line"></div><div class="line">有一个讲的很好的基于REST设计星巴克点咖啡工作流的事例，上面讲的几个方面在这个栗子中均有很好的体现。请戳[这里](http://www.infoq.com/cn/articles/webber-rest-workflow)</div><div class="line"></div><div class="line">因为我主要从事搜索相关工作，那么对于搜索这样一个接口，应该怎么设计呢？这并不是一个答案显而易见的问题。搜索一般都是接受一个关键字，然后返回与改关键字相关的一系列结果。其实，具体应该怎么设计其实见仁见智。其中一种简单的方式是认为搜索结果是资源，通过GET方法直接获取这个搜索资源，这种最直接，不过有限于参数的长度等。还有一种被认为更符合REST风格的做法是，将搜索结果当作资源，每一种搜索都有一个id，但是这个id我们实现无法知道，可以这么理解，我们通过q参数和post方法(put方法一般用来更新资源，它是idempotent的方法，一个方法重复执行多次，产生的效果是一样的，那就是idempotent的)创建这个资源并返回资源id，然后通过get方法去获取。这样很符合rest，也能有效利用http缓存，但是需要两次http请求。所以这里，post方法直接返回资源的描述，省略了先返回id再通过get方法请求浏览资源这个步骤。</div><div class="line">## REST实战</div><div class="line">对应到实际工程实践中，不同语言都已经又了相对比较成熟的RESTful框架，例如：java的jersey，php的slim，python下的django-rest-framework。我用得比较多的是python，就用为例说明一下REST实现的主要流程。</div><div class="line">### 基础知识</div><div class="line">我相信很多人都做过web开发，但是我却发现很多人对于web开发中基本的概念却比较模糊，例如：什么是web server，什么是application server，它们之间是怎么合作的？</div><div class="line"></div><div class="line">* web server能够接收http请求，并返回静态文件，例如一个html页面，但是它动态的执行业务逻辑，但是这不意味着它不能提供动态的应用服务，它可以把动态的请求委托给其他程序，例如：CGI、FastCGI、jsp、asp、servlet等服务端程序。无论这些程序的目的是什么，它最终都会返回一个http response用于前端的展示，例如html页面。</div><div class="line"></div><div class="line">* application server有处理业务逻辑的能力，并通过各种协议（例如http、pop3等）将处理业务逻辑的能力暴露给客户端应用程序，客户端应用程序可以是一个图像化桌面程序，浏览器，甚至是一个web server。因此，application server通常具有web server的功能，web serever可以理解为application server的一个子集。</div><div class="line"></div><div class="line">* 举个例子，用户想知道工号001的员工今天卖了多少商品，我们怎么搭建这样一个服务？假设工号和对应卖的商品数量存在数据库中。因此我们知道仅仅靠web server是完成不了的。方案1:我们选择一个application server，例如django（其实django是一个python的web框架，生产环境中通常是通过nginx+wsgi+django部署的，这个时候nginx充当web server，wsgi是应用服务器，但是django中有监听端口的功能，能够处理http请求，因此这里把它说成是application server），然后接受http请求，查询数据库，封装http response并返回；方案2:用nginx+wsgi+django，方案一中其实已经提到。这里说明一下wsgi(Web Server Gateway Interface)，wsgi可以理解为python中的“fastcgi”，nginx中的wsgi模块作为client，django(python)中的wsgi模块作为server。</div><div class="line"></div><div class="line">### 实现</div><div class="line"></div><div class="line">本例子中，web server是nginx，wsgi就是服务端程序，它连接着nginx和django(django中实现的服务是符合rest风格的)，与nginx+wsgi+django类似。和FastCGI一样，WSGI(python下的CGI)接口在linux下是socket，这个socket既可以是文件socket，也可以是ip socket。为了调用CGI程序，还需要一个类似FastCGI的wrapper(例如PHP-FPM，uWSGI)，这wrapper绑定在某个固定socket上，如端口或者文件socket。当Nginx将CGI请求发送给这个socket的时候，通过FastCGI接口，wrapper接纳到请求，然后派生出一个新的线程，这个线程调用解释器或者外部程序处理脚本并读取返回数据；接着，wrapper再将返回的数据通过FastCGI接口，沿着固定的socket传递给Nginx；过程如下所示：</div><div class="line">![nginx+fastcgi+application](/img/rest_1.png)</div><div class="line"></div><div class="line">主要功能是：提供英语单词搜索和书页的搜索。分为两个app，一个english，一个book。权限认证和应用数据分别存在两个数据库（本地和远程）。用户权限管理的数据库在本地，app使用的数据在remote mysql上，因此需要配置多个数据库，然后通过数据库路由进行数据库访问的控制。数据库路由使用DATABASE_ROUTERS 设置安装。这个设置定义一个类名的列表，其中每个类表示一个路由，它们将被主路由（django.db.router）使用。首先创建路由文件，然后在其中创建两个路由类，如下所示。并在setting.py中设置DATABASE_ROUTER。这样配置数据库路由之后，english和book这两个app的model相关操作在```app_db_1```这个数据库中，其余的都在```auth_db```数据库中。</div></pre></td></tr></table></figure></p>
+<p>class UserRouter(object):<br>    def db_for_read(self, model, **hints):<br>        return ‘auth_db’</p>
+<pre><code>def db_for_write(self, model, **hints):
+    return &apos;auth_db&apos;
+
+def allow_relation(self, obj1, obj2, **hints):
+    db_list = [&apos;auth_db&apos;, &apos;app_db_1&apos;]
+    if obj1._state.db in db_list and obj2._state.db in db_list:
+        return True
+    return None
+
+def allow_migrate(self, db, app_label, model=None, **hints):
+    return db == &apos;auth_db&apos;
+</code></pre><p>class AppRouter(object):<br>    def db_for_read(self, model, **hints):<br>        if model._meta.app_label == ‘english’ or model._meta.app_label == ‘book’:<br>            return ‘app_db_1’<br>        return None</p>
+<pre><code>def db_for_write(self, model, **hints):
+    if model._meta.app_label == &apos;english&apos; or model._meta.app_label == &apos;book&apos;:
+        return &apos;app_db_1&apos;
+    return None
+
+def allow_relation(self, obj1, obj2, **hints):
+    return None
+
+def allow_migrate(self, db, app_label, model=None, **hints):
+    if app_label == &apos;english&apos; or app_label == &apos;book&apos;:
+        return db == &apos;app_db_1&apos;
+    return None
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Django最适合于所谓的green-field开发，即从头开始的一个项目,本次应用中我们需要和已有的数据库进行整合。可以通过inspectdb这个工具首先探测数据库中已经存在表的model结构，生成model，例如：</div></pre></td></tr></table></figure>
+<p>python manage.py inspectdb –database=app_db_1 &gt;english/models.py<br>```<br>保留其中的DataDict和DataBaicizhan这两个model，其中managed设置为False(设置为false之后不能create和delete table)，db_table不要修改，保持与现有数据库的一致。</p>
+<p> 启用admin，使用<code>python manage.py createsuperuser --database auth_db</code>命令创建超级用户（root，hustkerry），并使用这个账户登陆/admin页面。为了让admin能够管理你app的model，需要在app中的admin.py中注册本app下应该被管理的model。</p>
+<ul>
+<li><strong><em>序列化</em></strong>：restful式的服务中，参数和结果中最常用的形式就是json。rest_framework提供serializers作为序列化model实例的工具，它可以很方便的讲数据库对象序列化成json，同样也可以反序列化进行存储，更新等。</li>
+<li><strong><em>真正的REST</em></strong>：上面的序列化没有设计到任何rest的核心，只是告诉我们怎么返回一个json数据或者接收处理json数据。为了做到真正的restful服务，django rest framework给我们提供了下面几块：<strong><em>Request</em></strong>，<strong><em>Response(TemplateResponse)</em></strong>，<strong><em>Status Code</em></strong>，<strong><em>Wrapping API Views</em></strong>，<strong><em>支持带格式后缀的URI</em></strong>。每一部分的设计都符合rest规范，每一块的用处具体的参考<a href="http://www.django-rest-framework.org/tutorial/2-requests-and-responses/" target="_blank" rel="external">这里</a>。注意的是，在返回TemplateResponse给client之前，它首先要被rendered，django rest framework支持很多的render class，默认的是json，关于其他各种格式的render，例如xml，html，api等可以参考<a href="http://www.django-rest-framework.org/api-guide/renderers/" target="_blank" rel="external">这里</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/REST/" rel="tag"># REST</a>
+          
+            <a href="/tags/django/" rel="tag"># django</a>
+          
+            <a href="/tags/web开发/" rel="tag"># web开发</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/10/optimization-method/" rel="next" title="常用最优化方法总结">
+                <i class="fa fa-chevron-left"></i> 常用最优化方法总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/img/python.png"
+               alt="Kerry" />
+          <p class="site-author-name" itemprop="name">Kerry</p>
+           
+              <p class="site-description motion-element" itemprop="description">认真你就输了<br/>一直认真你就赢了</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是REST-Representational-State-Transfer，表述性状态转移"><span class="nav-number">1.</span> <span class="nav-text">什么是REST(Representational State Transfer，表述性状态转移)</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kerry</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
