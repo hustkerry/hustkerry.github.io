@@ -263,7 +263,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://note.hustkerry.me/2016/08/01/rest/">
+    <link itemprop="mainEntityOfPage" href="http://note.hustkerry.me/2016/08/01/optimization-method/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Kerry">
@@ -282,7 +282,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/08/01/rest/" itemprop="url">REST理论与实战</a></h1>
+                <a class="post-title-link" href="/2016/08/01/optimization-method/" itemprop="url">常用最优化方法总结</a></h1>
         
 
         <div class="post-meta">
@@ -294,8 +294,146 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-01T17:22:09+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-01T10:38:08+08:00">
                 2016-08-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Machine-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Machine Learning</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>如果从事过机器学习相关工作都应该对梯度下降和牛顿法等不陌生。统计学习的角度来说(其实是李航老师说的)，大部分机器学习主要分为三个块：模型，策略和算法。其中算法的目标就是求解最优参数的过程，包含了各种最优化方法。而梯度下降就是其中最普遍的一个，例如：线性回归，神经网络、逻辑回归等算法都经常用梯度下降法完成最优化过程。说到梯度下降，我和很多人一样，曾经的第一反应就是：“<strong>它是一个不断迭代的算法，每一次在点下降最快的方向(就是梯度反方向)往前走一个步长(这个步长可以定长，也可以动态调整，步长偏大容易震荡，偏小又导致训练速度下降)，如此不停迭代，直到损失函数不再有明显变化。当然，为了缩短训练时间或者防止过拟合也可以early stop，例如：如果validation data的准确率不再发生明显变化了，就停止训练。</strong>”了解这些也许对于工程实现来说够了，但是仔细一想，什么是梯度，为什么沿着梯度反方向下降是最快的，它的原理是什么？所以，我觉得需要总结一下最优化方法。
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/08/01/optimization-method/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://note.hustkerry.me/2016/06/10/rest/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kerry">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/img/python.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kerry">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/06/10/rest/" itemprop="url">REST理论与实战</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-06-10T17:22:09+08:00">
+                2016-06-10
               </time>
             
 
@@ -356,145 +494,7 @@
 <h2 id="什么是REST-Representational-State-Transfer，表述性状态转移"><a href="#什么是REST-Representational-State-Transfer，表述性状态转移" class="headerlink" title="什么是REST(Representational State Transfer，表述性状态转移)"></a>什么是REST(Representational State Transfer，表述性状态转移)</h2><p>首先，必须明确一点：<strong>REST不是一种标准，不是一种规范，不是一种技术，也不是一种协议，而是一种web应用的架构风格，也是目前最优秀的一种分布式应用架构风格。它是一种web设计的架构指导原则，当然，你不遵循它你同样可以实现相同的功能。</strong>例如，HTTP1.1就是一个很好的REST实现。下面，从我认为的REST中三个比较重要的方面去解释什么是REST。
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/08/01/rest/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://note.hustkerry.me/2016/06/10/optimization-method/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Kerry">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/img/python.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Kerry">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/06/10/optimization-method/" itemprop="url">常用最优化方法总结</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-06-10T10:38:08+08:00">
-                2016-06-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Machine-Learning/" itemprop="url" rel="index">
-                    <span itemprop="name">Machine Learning</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>如果从事过机器学习相关工作都应该对梯度下降和牛顿法等不陌生。统计学习的角度来说(其实是李航老师说的)，大部分机器学习主要分为三个块：模型，策略和算法。其中算法的目标就是求解最优参数的过程，包含了各种最优化方法。而梯度下降就是其中最普遍的一个，例如：线性回归，神经网络、逻辑回归等算法都经常用梯度下降法完成最优化过程。说到梯度下降，我和很多人一样，曾经的第一反应就是：“<strong>它是一个不断迭代的算法，每一次在点下降最快的方向(就是梯度反方向)往前走一个步长(这个步长可以定长，也可以动态调整，步长偏大容易震荡，偏小又导致训练速度下降)，如此不停迭代，直到损失函数不再有明显变化。当然，为了缩短训练时间或者防止过拟合也可以early stop，例如：如果validation data的准确率不再发生明显变化了，就停止训练。</strong>”了解这些也许对于工程实现来说够了，但是仔细一想，什么是梯度，为什么沿着梯度反方向下降是最快的，它的原理是什么？所以，我觉得需要总结一下最优化方法。
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/06/10/optimization-method/#more" rel="contents">
+            <a class="btn" href="/2016/06/10/rest/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
