@@ -98,7 +98,7 @@
 <meta property="og:site_name" content="Kerry">
 <meta property="og:description" content="在我们工程实践中，经常会被要求提供各种各样的http接口。那么接口应该怎么设计，遵循什么风格？加上微服务的概念也越来越流行，我就对REST产生了兴趣。 什么是REST(Representational State Transfer，表述性状态转移)首先，必须明确一点：REST不是一种标准，不是一种规范，不是一种技术，也不是一种协议，而是一种web应用的架构风格，也是目前最优秀的一种分布式应用架构风">
 <meta property="og:image" content="http://note.hustkerry.me/img/rest_1.png">
-<meta property="og:updated_time" content="2017-05-19T10:49:37.000Z">
+<meta property="og:updated_time" content="2017-05-21T06:17:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="REST理论与框架">
 <meta name="twitter:description" content="在我们工程实践中，经常会被要求提供各种各样的http接口。那么接口应该怎么设计，遵循什么风格？加上微服务的概念也越来越流行，我就对REST产生了兴趣。 什么是REST(Representational State Transfer，表述性状态转移)首先，必须明确一点：REST不是一种标准，不是一种规范，不是一种技术，也不是一种协议，而是一种web应用的架构风格，也是目前最优秀的一种分布式应用架构风">
@@ -367,7 +367,7 @@
 <p>有一个讲的很好的基于REST设计星巴克点咖啡工作流的事例，上面讲的几个方面在这个栗子中均有很好的体现。请戳<a href="http://www.infoq.com/cn/articles/webber-rest-workflow" target="_blank" rel="external">这里</a></p>
 <p>因为我主要从事搜索相关工作，那么对于搜索这样一个接口，应该怎么设计呢？这并不是一个答案显而易见的问题。搜索一般都是接受一个关键字，然后返回与改关键字相关的一系列结果。其实，具体应该怎么设计其实见仁见智。其中一种简单的方式是认为搜索结果是资源，通过GET方法直接获取这个搜索资源，这种最直接，不过有限于参数的长度等。还有一种被认为更符合REST风格的做法是，将搜索结果当作资源，每一种搜索都有一个id，但是这个id我们实现无法知道，可以这么理解，我们通过q参数和post方法(put方法一般用来更新资源，它是idempotent的方法，一个方法重复执行多次，产生的效果是一样的，那就是idempotent的)创建这个资源并返回资源id，然后通过get方法去获取。这样很符合rest，也能有效利用http缓存，但是需要两次http请求。所以这里，post方法直接返回资源的描述，省略了先返回id再通过get方法请求浏览资源这个步骤。</p>
 <h2 id="REST实战"><a href="#REST实战" class="headerlink" title="REST实战"></a>REST实战</h2><p>对应到实际工程实践中，不同语言都已经又了相对比较成熟的RESTful框架，例如：java的jersey，php的slim，python下的django-rest-framework。我用得比较多的是python，就用为例说明一下REST实现的主要流程。</p>
-<h3 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h3><p>我相信很多人都做过web开发，但是我却发现很多人对于web开发中基本的概念却比较模糊，例如：什么是web server，什么是application server，它们之间是怎么合作的？</p>
+<h3 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h3><p>我相信很多人都做过web开发，但是对于web开发中基本的概念却容易混淆，例如：什么是web server，什么是application server，它们之间是怎么合作的？</p>
 <ul>
 <li><p>web server能够接收http请求，并返回静态文件，例如一个html页面，但是它动态的执行业务逻辑，但是这不意味着它不能提供动态的应用服务，它可以把动态的请求委托给其他程序，例如：CGI、FastCGI、jsp、asp、servlet等服务端程序。无论这些程序的目的是什么，它最终都会返回一个http response用于前端的展示，例如html页面。</p>
 </li>
